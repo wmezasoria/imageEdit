@@ -1,0 +1,132 @@
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+
+<canvas id="canvas" width="200" height="200"></canvas>
+<style>
+canvas {
+  border: 1px solid black;
+}
+
+a {
+  display: block;
+}
+</style>
+<a id="button">Save Image</a>
+<button id="download">download</button>
+
+
+
+<script>
+var canvas = document.getElementById("canvas").getContext("2d");
+
+var button = document.getElementById("button");
+
+var image = new Image();
+image.crossOrigin = "anonymous"; // This enables CORS
+image.onload = function(event) {
+  try {
+    canvas.drawImage(image, 0, 0, 200, 200);
+    button.download = "cat.png";
+    button.href = canvas.canvas.toDataURL();
+  } catch (e) {
+    alert(e);
+  }
+};
+image.src = "http://remates.funcionjudicial.gob.ec/rematesjudiciales-web/resources/img/ecuador.png"
+
+
+
+
+
+
+
+
+
+
+download.addEventListener("click", function() {
+  // only jpeg is supported by jsPDF
+  var imgData = canvas.canvas.toDataURL("image/jpeg", 1.0);
+  var pdf = new jsPDF();
+
+  pdf.addImage(imgData, 'JPEG', 0, 0);
+  pdf.save("download.pdf");
+}, false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// grab the canvas element, get the context for API access and 
+// preset some variables
+var canvas2 = document.querySelector( 'canvas' ),
+    c = canvas2.getContext( '2d' ),
+    mouseX = 0,
+    mouseY = 0,
+    width = 200,
+    height = 200,
+    colour = 'hotpink',
+    mousedown = false;
+
+// resize the canvas
+canvas2.width = width;
+canvas2.height = height;
+
+function draw() {
+  if (mousedown) {
+    // set the colour
+    c.fillStyle = colour; 
+    // start a path and paint a circle of 20 pixels at the mouse position
+    c.beginPath();
+    c.arc( mouseX, mouseY, 10 , 0, Math.PI*2, true );
+    c.closePath();
+    c.fill();
+  }
+}
+
+// get the mouse position on the canvas (some browser trickery involved)
+canvas2.addEventListener( 'mousemove', function( event ) {
+  if( event.offsetX ){
+    mouseX = event.offsetX;
+    mouseY = event.offsetY;
+  } else {
+    mouseX = event.pageX - event.target.offsetLeft;
+    mouseY = event.pageY - event.target.offsetTop;
+  }
+  // call the draw function
+  draw();
+}, false );
+
+canvas2.addEventListener( 'mousedown', function( event ) {
+    mousedown = true;
+}, false );
+canvas2.addEventListener( 'mouseup', function( event ) {
+    mousedown = false;
+}, false );
+
+
+
+</script>
+</html>
